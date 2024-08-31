@@ -1,13 +1,11 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { Box, Typography } from '@mui/material';
 import ContactsItem from '../../components/Contacts/ContactsItem';
 
 const Contacts = () => {
-  const contacts = [
-    { id: 1, name: 'John Doe', number: '123-456-7890' },
-    { id: 2, name: 'Jane Smith', number: '987-654-3210' },
-  ];
+  // Exemplu de utilizare a `useSelector` pentru a accesa starea din Redux
+  const contacts = useSelector((state) => state.contacts.items); // presupunând că contactele sunt stocate în `state.contacts.items`
 
   return (
     <div className="container">
