@@ -1,0 +1,6 @@
+.userMenu {
+  background-color: var(--chakra-colors-gray-100);
+  padding: var(--chakra-space-4);
+  border-radius: var(--chakra-radii-md);
+  margin-bottom: var(--chakra-space-6);
+}

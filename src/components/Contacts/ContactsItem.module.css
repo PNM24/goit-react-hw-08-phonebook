@@ -1,0 +1,8 @@
+.contactItem {
+  transition: all 0.3s ease;
+}
+
+.contactItem:hover {
+  box-shadow: var(--chakra-shadows-lg);
+  transform: translateY(-2px);
+}

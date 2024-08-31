@@ -1,62 +1,49 @@
-import React, { useEffect } from 'react';
-import { PhonebookForm } from './components/PhonebookForm/PhonebookForm';
-import { FilterContacts } from './components/FilterContacts/FilterContacts';
-import { Contacts } from './components/Contacts/Contacts';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContact, deleteContact, setFilter, fetchContacts, selectContacts, selectFilter, selectIsLoading, selectError } from './redux/contactsSlice';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Navigation from './components/Navigation/Navigation';
+import Register from './Pages/Register/Register';
+import Login from './Pages/Login/Login';
+import Contacts from './Pages/Contacts/Contacts';
+import Home from './Pages/Home/Home';
+import theme from './theme/theme';
+import { useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
-export const App = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+const PrivateRoute = ({ children }) => {
+  const user = useSelector((state) => state.auth.user);
+  return user ? children : <Navigate to="/login" />;
+};
 
-  // Fetch contacts from the server when the component mounts
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-
-  const handleFilterChange = e => {
-    dispatch(setFilter(e.target.value));
-  };
-
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-  
-  const handleFormSubmit = (name, number) => {
-    const isNameExists = contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    if (isNameExists) {
-      alert(`${name} is already in contacts.`);
-      return;
-    }
-
-    dispatch(addContact({ name, number }));
-  };
-
-  const handleDeleteContact = contactId => {
-    dispatch(deleteContact(contactId));
-  };
-
+const App = () => {
   return (
-    <div>
-      <h1 className="title">Phonebook</h1>
-      <PhonebookForm handleFormSubmit={handleFormSubmit} />
-
-      <h2 className="title">Contacts</h2>
-      <FilterContacts filter={filter} onFilterChange={handleFilterChange} />
-      
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      
-      <Contacts
-        contacts={filteredContacts}
-        onDeleteContact={handleDeleteContact}
-      />
-    </div>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <div className="container">
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route 
+                path="/contacts" 
+                element={
+                  <PrivateRoute>
+                    <Contacts />
+                  </PrivateRoute>
+                } 
+              />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 };
+
+export default App;

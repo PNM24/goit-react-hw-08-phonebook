@@ -1,0 +1,18 @@
+.contactsContainer {
+  text-align: center;
+  width: 100%;
+}
+
+/* Media query pentru tablete */
+@media (max-width: 1024px) {
+  .contactsContainer {
+    width: 90%;
+  }
+}
+
+/* Media query pentru telefoane mobile */
+@media (max-width: 768px) {
+  .contactsContainer {
+    width: 100%;
+  }
+}
