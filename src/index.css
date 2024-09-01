@@ -20,9 +20,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Înălțimea completă a ecranului */
-  width: 100vw;  /* Lățimea completă a ecranului */
-  background-color: rgba(255, 255, 255, 0.85); /* Fundal semi-transparent pentru conținut */
+  height: 100vh; 
+  width: 100vw;  
+  background-color: rgba(255, 255, 255, 0.85); 
   box-sizing: border-box;
   position: relative;
   z-index: 1;
@@ -33,7 +33,7 @@ body {
 @media (max-width: 768px) {
   .container {
     padding: 15px;
-    width: 95%; /* Ocupă aproape toată lățimea ecranului pe mobil */
+    width: 95%; 
   }
 
   .title {
@@ -48,7 +48,7 @@ body {
 @media (max-width: 480px) {
   .container {
     padding: 10px;
-    width: 100%; /* Pe ecrane foarte mici, ocupă întreaga lățime */
+    width: 100%; 
   }
 
   .title {

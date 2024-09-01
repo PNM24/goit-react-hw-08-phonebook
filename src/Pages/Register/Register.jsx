@@ -35,7 +35,7 @@ const Register = () => {
     dispatch(register(name, email, password));
   };
 
-  // Redirecționează utilizatorul către pagina dorită după ce autentificarea are succes
+  
   useEffect(() => {
     if (user) {
       navigate('/contacts');

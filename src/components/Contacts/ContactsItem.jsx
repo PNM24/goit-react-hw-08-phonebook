@@ -8,10 +8,9 @@ const ContactsItem = ({ contact }) => {
     if (!confirmDelete) return;
 
     try {
-      // Simulăm o operațiune asincronă
+      
       console.log('Deleting contact:', contact.id);
-      // Aici poți adăuga codul pentru ștergerea contactului din baza de date sau API-ul
-      // await api.deleteContact(contact.id);
+      
     } catch (error) {
       console.error('Error deleting contact:', error);
       alert('Failed to delete the contact. Please try again.');

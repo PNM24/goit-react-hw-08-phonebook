@@ -7,7 +7,7 @@ import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
 import Contacts from './Pages/Contacts/Contacts';
 import Home from './Pages/Home/Home';
-import Footer from './components/Footer/Footer';  // Importă Footer-ul
+import Footer from './components/Footer/Footer'; 
 import theme from './theme/theme';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';
@@ -24,8 +24,8 @@ const App = () => {
   useEffect(() => {
     if (token) {
       const user = JSON.parse(localStorage.getItem('user'));
-      setAuthToken(token); // Setează token-ul pentru cererile ulterioare
-      dispatch(loginSuccess({ user, token })); // Setează starea utilizatorului în Redux
+      setAuthToken(token); 
+      dispatch(loginSuccess({ user, token })); 
     }
   }, [dispatch, token]);
 

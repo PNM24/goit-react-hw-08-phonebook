@@ -29,7 +29,7 @@ const Login = () => {
     dispatch(login(email, password));
   };
 
-  // Redirecționează utilizatorul după autentificare
+  
   React.useEffect(() => {
     if (user) {
       navigate('/contacts');
