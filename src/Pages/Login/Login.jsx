@@ -1,78 +1,65 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Alert } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/slices/authSlice';
+import { login } from '../../redux/api/authApi';
+import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const authError = useSelector((state) => state.auth.error);
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
 
-  const isValidEmail = (email) => {
-    // Validare simplă pentru email
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!isValidEmail(email)) {
-      setError('Adresa de email nu este corectă.');
-      return;
-    }
-
-    try {
-      const resultAction = await dispatch(login({ email, password }));
-      if (login.fulfilled.match(resultAction)) {
-        navigate('/contacts');
-      } else {
-        setError(authError || 'Email-ul sau parola sunt incorecte.');
-      }
-    } catch (error) {
-      setError(error.message || 'A apărut o eroare la autentificare.');
-    }
+    dispatch(login(email, password));
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate('/contacts'); // Redirecționează utilizatorul către pagina Contacts după autentificare
+    }
+  }, [user, navigate]);
 
   return (
-    <div className="container">
-      <Box maxWidth="sm" mx="auto">
-        <Typography variant="h4" gutterBottom>Login</Typography>
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Login
-          </Button>
-        </form>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      p={3}
+    >
+      <Typography variant="h4" gutterBottom>
+        Login
+      </Typography>
+      {authError && <Alert severity="error">{authError}</Alert>}
+      <Box component="form" onSubmit={handleSubmit} width="100%" maxWidth="400px" mt={2}>
+        <TextField
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+          Login
+        </Button>
       </Box>
-    </div>
+    </Box>
   );
 };
 

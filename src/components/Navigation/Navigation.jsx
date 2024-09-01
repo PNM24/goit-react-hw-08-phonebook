@@ -1,24 +1,39 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Button } from '@mui/material';
-import styles from './Navigation.module.css';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import UserMenu from '../UserMenu/UserMenu';
 
 const Navigation = () => {
+  const user = useSelector((state) => state.auth.user);
+
   return (
-    <AppBar position="sticky">
-      <Toolbar className={styles.navbar}>
-        <Button component={NavLink} to="/" color="inherit" className={styles.link}>
-          Home
-        </Button>
-        <Button component={NavLink} to="/register" color="inherit" className={styles.link}>
-          Register
-        </Button>
-        <Button component={NavLink} to="/login" color="inherit" className={styles.link}>
-          Login
-        </Button>
-        <Button component={NavLink} to="/contacts" color="inherit" className={styles.link}>
-          Contacts
-        </Button>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+            Phonebook
+          </Link>
+        </Typography>
+        <Box display="flex" alignItems="center">
+          {user && (
+            <Link to="/contacts" style={{ color: 'inherit', textDecoration: 'none', marginRight: '10px' }}>
+              Contacts
+            </Link>
+          )}
+          {user ? (
+            <UserMenu />
+          ) : (
+            <>
+              <Link to="/login" style={{ color: 'inherit', textDecoration: 'none', marginRight: '10px' }}>
+                Login
+              </Link>
+              <Link to="/register" style={{ color: 'inherit', textDecoration: 'none' }}>
+                Register
+              </Link>
+            </>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );

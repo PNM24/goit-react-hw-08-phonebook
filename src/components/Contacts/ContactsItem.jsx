@@ -3,8 +3,19 @@ import PropTypes from 'prop-types';
 import { Box, Typography, Button } from '@mui/material';
 
 const ContactsItem = ({ contact }) => {
-  const handleDelete = () => {
-    console.log('Deleting contact:', contact.id);
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete ${contact.name}?`);
+    if (!confirmDelete) return;
+
+    try {
+      // Simulăm o operațiune asincronă
+      console.log('Deleting contact:', contact.id);
+      // Aici poți adăuga codul pentru ștergerea contactului din baza de date sau API-ul
+      // await api.deleteContact(contact.id);
+    } catch (error) {
+      console.error('Error deleting contact:', error);
+      alert('Failed to delete the contact. Please try again.');
+    }
   };
 
   return (

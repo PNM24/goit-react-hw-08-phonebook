@@ -1,30 +1,26 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Flex, Text, Button } from '@chakra-ui/react';
-import { logout } from '../../redux/slices/authSlice';
-import styles from './UserMenu.module.css';
+import { Box, Typography, Button } from '@mui/material';
+import { logoutUser } from '../../redux/api/authApi';
 
 const UserMenu = () => {
-  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
   };
 
   return (
-    <Flex justify="space-between" align="center" className={styles.userMenu}>
-      <Text>{user?.email}</Text>
-      <Button colorScheme="red" onClick={handleLogout}>Logout</Button>
-    </Flex>
+    <Box display="flex" alignItems="center">
+      <Typography variant="body1" sx={{ mr: 2 }}>
+        Welcome, {user.name}
+      </Typography>
+      <Button variant="contained" color="secondary" onClick={handleLogout}>
+        Logout
+      </Button>
+    </Box>
   );
-};
-
-UserMenu.propTypes = {
-  user: PropTypes.shape({
-    email: PropTypes.string,
-  }),
 };
 
 export default UserMenu;

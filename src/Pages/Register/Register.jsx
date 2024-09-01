@@ -1,78 +1,72 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../redux/slices/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { register } from '../../redux/api/authApi';
+import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 
 const Register = () => {
+  const [username, setUsername] = useState(''); // Asigură-te că acest câmp este completat
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const authError = useSelector((state) => state.auth.error);
 
-  const isValidEmail = (email) => {
-    // Validare simplă pentru email
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!isValidEmail(email)) {
-      setError('Adresa de email nu este corectă.');
+    if (!username.trim()) {
+      alert('Name is required');
       return;
     }
 
-    try {
-      const resultAction = await dispatch(register({ email, password }));
-      if (register.fulfilled.match(resultAction)) {
-        navigate('/contacts');
-      } else {
-        setError(authError || 'Email-ul a fost deja folosit.');
-      }
-    } catch (error) {
-      setError(error.message || 'A apărut o eroare la înregistrare.');
-    }
+    dispatch(register(username, email, password)); // Trimite username-ul la backend
   };
 
   return (
-    <div className="container">
-      <Box maxWidth="sm" mx="auto">
-        <Typography variant="h4" gutterBottom>Register</Typography>
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Register
-          </Button>
-        </form>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      p={3}
+    >
+      <Typography variant="h4" gutterBottom>
+        Register
+      </Typography>
+      {authError && <Alert severity="error">{authError}</Alert>}
+      <Box component="form" onSubmit={handleSubmit} width="100%" maxWidth="400px" mt={2}>
+        <TextField
+          label="Name"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <TextField
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          required
+          margin="normal"
+        />
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+          Register
+        </Button>
       </Box>
-    </div>
+    </Box>
   );
 };
 

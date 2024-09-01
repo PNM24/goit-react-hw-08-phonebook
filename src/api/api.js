@@ -14,8 +14,8 @@ export const setAuthToken = (token) => {
   }
 };
 
-export const registerUser = async (email, password) => {
-  const response = await instance.post('/users/signup', { email, password });
+export const registerUser = async (username, email, password) => {
+  const response = await instance.post('/users/signup', { username, email, password });
   return response.data;
 };
 
