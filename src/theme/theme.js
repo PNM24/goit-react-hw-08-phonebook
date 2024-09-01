@@ -3,32 +3,41 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#00796b', // Culoare verde închis plăcută
+      main: '#1976d2', // Albastru modern
     },
     secondary: {
-      main: '#004d40', // Culoare verde foarte închis
+      main: '#dc004e', // Roșu modern
     },
     background: {
-      default: '#f0f4c3', // Culoare verde foarte deschis, plăcută pentru fundal
-      paper: '#ffffff',
-    },
-    text: {
-      primary: '#263238', // Text închis pentru contrast
-      secondary: '#4f5b62',
+      default: '#f4f6f8', // Gri deschis pentru fundal
     },
   },
   typography: {
-    fontFamily: 'Roboto, sans-serif',
-    h4: {
+    fontFamily: [
+      '"Roboto"',
+      '"Helvetica"',
+      '"Arial"',
+      'sans-serif',
+    ].join(','),
+    h5: {
       fontWeight: 600,
-      color: '#263238',
     },
-    h6: {
-      fontWeight: 400,
-      color: '#4f5b62',
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8, // Butoane rotunjite
+        },
+      },
     },
-    body1: {
-      color: '#263238',
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16, // Carduri rotunjite
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)', // Umbră subtilă
+        },
+      },
     },
   },
 });

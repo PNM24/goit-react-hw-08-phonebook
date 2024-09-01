@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, List, ListItem, ListItemText, Button, CircularProgress, Card, CardContent, CardActions } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, IconButton, CircularProgress, Card, CardContent } from '@mui/material';
 import { fetchContacts, removeContact } from '../../redux/api/contactsApi';
 import AddContact from '../../components/AddContact/AddContact';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Contacts = () => {
   const contacts = useSelector((state) => state.contacts.items);
@@ -46,15 +48,12 @@ const Contacts = () => {
                 primary={contact.name}
                 secondary={`Phone: ${contact.number}`}
               />
-              <CardActions>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleDelete(contact.id)}
-                >
-                  Delete
-                </Button>
-              </CardActions>
+              <IconButton edge="end" aria-label="edit">
+                <EditIcon />
+              </IconButton>
+              <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(contact.id)}>
+                <DeleteIcon color="error" />
+              </IconButton>
             </ListItem>
           ))}
         </List>

@@ -7,6 +7,7 @@ import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
 import Contacts from './Pages/Contacts/Contacts';
 import Home from './Pages/Home/Home';
+import Footer from './components/Footer/Footer';  // Importă Footer-ul
 import theme from './theme/theme';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';
@@ -23,8 +24,8 @@ const App = () => {
   useEffect(() => {
     if (token) {
       const user = JSON.parse(localStorage.getItem('user'));
-      setAuthToken(token); // Asigură-te că token-ul este setat
-      dispatch(loginSuccess({ user, token }));
+      setAuthToken(token); // Setează token-ul pentru cererile ulterioare
+      dispatch(loginSuccess({ user, token })); // Setează starea utilizatorului în Redux
     }
   }, [dispatch, token]);
 
@@ -34,22 +35,25 @@ const App = () => {
         <CssBaseline />
         <Router>
           <ErrorBoundary>
-            <div className="container">
+            <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
               <Navigation />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/login" element={<Login />} />
-                <Route 
-                  path="/contacts" 
-                  element={
-                    <PrivateRoute>
-                      <Contacts />
-                    </PrivateRoute>
-                  } 
-                />
-                <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
+              <main style={{ flex: '1 0 auto' }}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route 
+                    path="/contacts" 
+                    element={
+                      <PrivateRoute>
+                        <Contacts />
+                      </PrivateRoute>
+                    } 
+                  />
+                  <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+              </main>
+              <Footer /> {/* Footer-ul este poziționat mereu jos */}
             </div>
           </ErrorBoundary>
         </Router>
