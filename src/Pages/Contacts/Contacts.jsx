@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, List, ListItem, ListItemText, Button, CircularProgress } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, Button, CircularProgress, Card, CardContent, CardActions } from '@mui/material';
 import { fetchContacts, removeContact } from '../../redux/api/contactsApi';
-import AddContact from '../../components/AddContact/AddContact'; // Asigură-te că importul este corect
+import AddContact from '../../components/AddContact/AddContact';
 
 const Contacts = () => {
   const contacts = useSelector((state) => state.contacts.items);
@@ -26,10 +26,14 @@ const Contacts = () => {
       minHeight="100vh"
       p={3}
     >
-      <Typography variant="h4" gutterBottom>
-        Your Contacts
-      </Typography>
-      <AddContact />
+      <Card sx={{ width: '100%', maxWidth: 600, mb: 3 }}>
+        <CardContent>
+          <Typography variant="h4" gutterBottom>
+            Your Contacts
+          </Typography>
+          <AddContact />
+        </CardContent>
+      </Card>
       {loading ? (
         <CircularProgress />
       ) : contacts.length === 0 ? (
@@ -42,13 +46,15 @@ const Contacts = () => {
                 primary={contact.name}
                 secondary={`Phone: ${contact.number}`}
               />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDelete(contact.id)}
-              >
-                Delete
-              </Button>
+              <CardActions>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDelete(contact.id)}
+                >
+                  Delete
+                </Button>
+              </CardActions>
             </ListItem>
           ))}
         </List>
